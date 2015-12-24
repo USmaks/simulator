@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>Simulation</title>
+	<script type="text/javascript" src="js4simu.js"></script>
+	<link href="css4simu.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+	<div class="main">
+	<h1 class="center">simulation page</h1>
+	<form id="sendvalue"> 
+		<span class="left solid">
+		<b>Voltage: </b>
+		<input name="voltagebox" id="voltage" type="text" value=""/><b>[V]</b>
+		<b>Frequency: </b>
+		<input name="frequencybox" id="frequency" type="text" value="" /><b>[Hz]</b>
+		</span><br>
+		<input id="execButton" type="button" value="Exec" onclick="onButton();"/> 
+	</form>
+	<hr />
+	Your inputting voltage is "<span id="outputv"></span>"[V]<br>
+	Your inputting frequency is "<span id="outputf"></span>"[Hz]
+	</div>
+</body>
+</html>
