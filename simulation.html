@@ -11,19 +11,22 @@
 <body>
 	<div class="main">
 	<h1 class="center">simulation page</h1>
-	<form id="sendvalue"> 
-		<span class="left solid">
+	<form id="sendvalue" class="solid"> 
+		<span class="left">
 		<b>Voltage: </b>
-		<input name="voltagebox" id="voltage" type="text" value=""/><b>[V]</b>
+		<input name="voltagebox" id="voltage" type="text" value=""/><b>[V]</b><br>
 		<b>Frequency: </b>
-		<input name="frequencybox" id="frequency" type="text" value="" /><b>[Hz]</b>
+		<input name="frequencybox" id="frequency" type="text" value="" /><b>[Hz]</b><br>
+		<b>The number of plots</b>
+		<input name="plotnum" id="plotnum" type="text" value="" /><br>
 		</span><br>
 		<input id="execButton" type="button" value="Exec" onclick="onButton();"/> 
 	</form>
 	<hr />
 	Your inputting voltage is "<span id="outputv"></span>"[V]<br>
-	Your inputting frequency is "<span id="outputf"></span>"[Hz]
+	Your inputting frequency is "<span id="outputf"></span>"[Hz]<br>
+	Your inputting the number of plots is "<span id="outputn"></span>"[]<br>
+	<canvas id="canvas" style="background-color:gray;">REQUIRED: Browser having the view for canvas tag.</canvas>
 	</div>
-	<canvas id="myChart" width="400" height="400"></canvas>
 </body>
 </html>
