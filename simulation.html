@@ -3,10 +3,8 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<meta charset="utf-8">
 	<title>Simulation</title>
-	<script type="text/javascript" src="js4simu.js"></script>
 	<link href="css4simu.css" rel="stylesheet" type="text/css"/>
-	<script type="text/javascript" src="Chart.min.js"></script>
-	<script type="text/javascript" src="plotting.js"></script>
+	<script type="text/javascript" src="flotr2.min.js"></script>
 </head>
 <body>
 	<div class="main">
@@ -26,7 +24,43 @@
 	Your inputting voltage is "<span id="outputv"></span>"[V]<br>
 	Your inputting frequency is "<span id="outputf"></span>"[Hz]<br>
 	Your inputting the number of plots is "<span id="outputn"></span>"[]<br>
-	<canvas id="canvas" style="background-color:gray;">REQUIRED: Browser having the view for canvas tag.</canvas>
+	<p class="graph-title">Graph</p>
+	<!-- <canvas id="canvas" style="background-color:gray;">REQUIRED: Browser having the view for canvas tag.</canvas> //-->
+	<div id="graph"></div>-->
+	<script type="text/javascript">
+	var voltage;
+	function onButton(){
+		voltage = document.forms.sendvalue.voltage.value;
+	
+	(function basic_legend(container){
+	 var d1 = [], d2 = [], data, graph, i;
+	 var d3 = [];
+	 for(i=0; i<15; i += 0.5){
+	 	d1.push([i, i + Math.sin(i+Math.PI)]);
+		d2.push([i, i]);
+		d3.push([i, voltage]);
+	 }
+	 data = [
+	 	{ data : d1, label :'x + sine(x+pi)' },
+		{ data : d2, label :'x'},
+		{ data : d3, label :'voltage' }
+	 ];
+
+	 function labelFn(label){
+	 	return 'y = ' + label;
+	 }
+
+	 graph = Flotr.draw(container, data, {
+		legend : {
+			position : 'se', // south-east
+			labelFormatter : labelFn,
+			backgroundColor : '#D2E8FF'
+		},
+		HtmlText : false
+	 });
+	})(document.getElementById("graph"));
+	}
+	</script>
 	</div>
 </body>
 </html>
