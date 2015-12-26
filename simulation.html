@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!-- by yuto -->
 <head>
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<meta charset="utf-8">
@@ -9,41 +9,112 @@
 <body>
 	<div class="main">
 	<h1 class="center">simulation page</h1>
-	<form id="sendvalue" class="solid"> 
+	<div class="boxContainer">
+	<form id="sendvalue" class="box"> 
 		<span class="left">
+		<h3>Inputing DATA</h3>
 		<b>Voltage: </b>
 		<input name="voltagebox" id="voltage" type="text" value=""/><b>[V]</b><br>
 		<b>Frequency: </b>
 		<input name="frequencybox" id="frequency" type="text" value="" /><b>[Hz]</b><br>
-		<b>The number of plots</b>
-		<input name="plotnum" id="plotnum" type="text" value="" /><br>
-		</span><br>
-		<input id="execButton" type="button" value="Exec" onclick="onButton();"/> 
+		<b>Time-range: </b>
+		<input name="trange" id="trange" type="text" value="" /><b>[t]</b><br>
+		<b>Every plot: </b>
+		<input name="eplot" id="eplot" type="text" value="" /><b>[Number]</b><br>
+		<br>
+		<a href="#" class="inputBtn" onclick="onButton();return false;">Input!</a> 
+		</span>
 	</form>
+	<div class="box">
+	<h3>Hints</h3>
+	<ul>
+		<li>If <b>1</b>[Hz], then <b>1</b>[t]{0is0}, <b>1miri</b>[t]{0.001}</li>
+		<li>If <b>1,000</b>[Hz]{1KHz}, then <b>1miri</b>[t]{E-3}, <b>1micro</b>[N]{E-6}</li>
+		<li>If <b>1,000,000</b>[Hz]{1MHz}, then <b>1micro</b>[t]{E-6}, <b>1nano</b>[N]{E-9}</li>
+		<li>If <b>1,000,000,000</b>[Hz]{1GHz}, then <b>1nano</b>[t]{E-9}, <b>1pico</b>[N]{E-12}</li>
+	</ul>
+	</div>
+	</div>
+	<br>
 	<hr />
-	Your inputting voltage is "<span id="outputv"></span>"[V]<br>
-	Your inputting frequency is "<span id="outputf"></span>"[Hz]<br>
-	Your inputting the number of plots is "<span id="outputn"></span>"[]<br>
-	<p class="graph-title">Graph</p>
+	Your inputting <b>voltage</b> is "<span id="outputv"></span>"[V]<br>
+	Your inputting <b>frequency</b> is "<span id="outputf"></span>"[Hz]<br>
+	Your inputting <b>time-range</b> is "<span id="outputt"></span>"[t]<br>
+	Your inputting <b>every plot</b> is "<span id="outputp"></span>"[Number]<br>
+	<p class="graph-title">Input Graph(SinWave)</p><br>
 	<!-- <canvas id="canvas" style="background-color:gray;">REQUIRED: Browser having the view for canvas tag.</canvas> //-->
 	<div id="graph"></div>-->
 	<script type="text/javascript">
 	var voltage;
 	function onButton(){
+		replacev = document.getElementById('outputv');
 		voltage = document.forms.sendvalue.voltage.value;
+		replacev.innerHTML = voltage;
+
+		replacef = document.getElementById('outputf');
+		frequency = document.forms.sendvalue.frequency.value;
+		if (frequency > 999){
+			replacef.innerHTML = frequency/1000 + "k";
+		}else if( frequency > 999999){
+			replacef.innerHTML = frequency/1000000 + "m";
+		}else if(frequency > 999999999){
+			replacef.innerHTML = frequency/1000000000 + "g";
+		}
+		else{
+			replacef.innerHTML = frequency;
+		}
+
+		replacet = document.getElementById('outputt');
+		trange = document.forms.sendvalue.trange.value;
+		if(trange.match(/miri/)){
+			trange = trange.replace( /miri/g , "");
+			trange *= 0.001;
+		}else if(trange.match(/micro/)){
+			trange = trange.replace( /micro/g , "");
+			trange *= 0.000001;
+		}else if(trange.match(/nano/)){
+			trange = trange.replace( /nano/g , "");
+			trange *= 0.000000001;
+		}else if(trange.match(/pico/)){
+			trange = trange.replace( /pico/g , "");
+			trange *= 0.000000000001;
+		}
+		replacet.innerHTML = trange;
+
+		replacep = document.getElementById('outputp');
+		eplot = document.forms.sendvalue.eplot.value;
+		if(eplot.match(/miri/)){
+			eplot = eplot.replace( /miri/g , "");
+			eplot *= 0.001;
+		}else if(eplot.match(/micro/)){
+			eplot = eplot.replace( /micro/g , "");
+			eplot *= 0.000001;
+		}else if(eplot.match(/nano/)){
+			eplot = eplot.replace( /nano/g , "");
+			eplot *= 0.000000001;
+		}else if(eplot.match(/pico/)){
+			eplot = eplot.replace( /pico/g , "");
+			eplot *= 0.000000000001;
+		}
+		replacep.innerHTML = eplot;
 	
 	(function basic_legend(container){
-	 var d1 = [], d2 = [], data, graph, i;
-	 var d3 = [];
-	 for(i=0; i<15; i += 0.5){
-	 	d1.push([i, i + Math.sin(i+Math.PI)]);
-		d2.push([i, i]);
-		d3.push([i, voltage]);
+	 var d1 = [], d2 = [], data, graph;
+	 var tmp = eplot;
+	 var i = 0;
+	 if( trange<0 || frequency<0 || eplot<0){
+	 	alert("Since we CANNOT timetravel, please input the right value");
+		document.getElementById('trange').innerHTML = "";
+		return;
+	 }
+	 while( i<trange ){
+	 	d1.push([i, voltage*Math.sin(2*3.1415*frequency*i)]);
+		d2.push([i, voltage]);
+		i = i + 1*tmp;
 	 }
 	 data = [
-	 	{ data : d1, label :'x + sine(x+pi)' },
-		{ data : d2, label :'x'},
-		{ data : d3, label :'voltage' }
+	 	{ data : d1, label :'v*sine(2pi*f*t)' },
+		{ data : d2, label :'voltage'}
 	 ];
 
 	 function labelFn(label){

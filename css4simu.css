@@ -32,7 +32,8 @@ body {
 #graph {
 	width : 100%;
 	height : 400px;
-	margin 20px auto;
+	margin: 20px auto;
+	padding: 5px 0 5px 0;
 }
 .graph-title {
 	font-size:16px;
@@ -47,4 +48,53 @@ body {
 	margin: 0 auto;
 }
 
+.inputBtn {
+	display: inline-block;
+	width: 100px;
+	height: 27px;
+	text-align: center;
+	text-decoration: none;
+	line-height: 27px;
+	outline: none;
+	background-color: #333;
+	color: #fff;
+}
+.inputBtn::before,
+.inputBtn::after {
+	position: absolute;
+	z-index: -1;
+	display: block;
+	content: '';
+}
+.inputBtn,
+.inputBtn::before,
+.inputBtn::after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-transition: all .3s;
+	transition: all .3s;
+}
+.inputBtn:hover {
+	background-color: #59b1eb;
+}
 
+.box {
+float: left;
+margin:0 auto;
+}
+.boxContainer {
+	overflow: hidden;
+	margin: 0 auto;
+}
+.boxContainer:before,
+.boxContainer:after {
+	content: "";
+	display: table;
+}
+.boxContainer:after {
+clear: both;
+}
+.boxContainer {
+zoom: 1;
+}
